@@ -3,6 +3,8 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import AddNote from './AddNote'
 import NoteList from './NoteList'
+import notesContext from './NotesContext'
+import NotesFilter from './NotesFilter'
 
 export default function NoteApp() {
     const [notes, setNotes] = useState([])
@@ -30,19 +32,21 @@ export default function NoteApp() {
 
     return (
         <div>
-            <input type='text'
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)} />
+            <notesContext.Provider value=
+                {{
+                    notes,
+                    handleAdd,
+                    desc,
+                    setDesc,
+                    filter,
+                    setFilter
+                }}>
 
-            <NoteList
-                notes={notes}
-            />
-            <br />
-            <AddNote
-                handleAdd={handleAdd}
-                desc={desc}
-                setDesc={setDesc}
-            />
+                <NotesFilter />
+                <NoteList />
+                <br />
+                <AddNote />
+            </notesContext.Provider>
         </div>
     )
 }
