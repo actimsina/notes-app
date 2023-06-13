@@ -3,6 +3,7 @@ import notesContext from './NotesContext'
 
 export default function AddNote() {
     const { handleAdd, desc, setDesc } = useContext(notesContext)
+
     return (
         <div>
             <form onSubmit={handleAdd}>

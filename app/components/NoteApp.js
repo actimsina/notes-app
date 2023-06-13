@@ -1,10 +1,10 @@
 'use client'
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import AddNote from './AddNote'
 import NoteList from './NoteList'
 import notesContext from './NotesContext'
 import NotesFilter from './NotesFilter'
+import noteService from '../services/noteService'
 
 export default function NoteApp() {
     const [notes, setNotes] = useState([])
@@ -12,21 +12,18 @@ export default function NoteApp() {
     const [filter, setFilter] = useState("")
 
     useEffect(() => {
-        axios.get('http://localhost:3000/notes.json')
-            .then(res => {
-                console.log(res.data.notes)
-                setNotes(res.data.notes)
-            })
+        noteService.getAllNotes()
+            .then(data => setNotes(data))
     }, [])
 
     const handleAdd = (evt) => {
         evt.preventDefault()
         const newNote = {
-            id: notes.length + 1,
             desc: desc,
             important: Math.random() < 0.5
         }
-        setNotes(notes.concat(newNote))
+        noteService.createNote(newNote)
+            .then(data => setNotes(notes.concat(data)))
         setDesc('')
     }
 
