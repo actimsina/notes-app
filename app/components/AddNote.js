@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import notesContext from './NotesContext'
+import notesContext from '../services/NotesContext'
 import noteService from '../services/noteService'
 
 export default function AddNote() {

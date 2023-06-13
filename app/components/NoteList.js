@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import notesContext from './NotesContext'
+import notesContext from '../services/NotesContext'
 
 export default function NoteList() {
     const { state: { notes, filter } } = useContext(notesContext)

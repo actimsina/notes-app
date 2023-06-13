@@ -2,31 +2,12 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import AddNote from './AddNote'
 import NoteList from './NoteList'
-import notesContext from './NotesContext'
+import notesContext from '../services/NotesContext'
 import NotesFilter from './NotesFilter'
 import noteService from '../services/noteService'
+import noteReducer from '../services/noteReducer'
 
-const noteReducer = (state, action) => {
-    switch (action.type) {
-        case 'SET_NOTES':
-            return {
-                ...state,
-                notes: action.payload
-            }
-        case 'SET_DESC':
-            return {
-                ...state,
-                desc: action.payload
-            }
-        case 'SET_FILTER':
-            return {
-                ...state,
-                filter: action.payload
-            }
-        default:
-            throw new Error('action not defined')
-    }
-}
+
 export default function NoteApp() {
     const [state, dispatch] = useReducer(noteReducer, {
         notes: [],
