@@ -1,42 +1,55 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import AddNote from './AddNote'
 import NoteList from './NoteList'
 import notesContext from './NotesContext'
 import NotesFilter from './NotesFilter'
 import noteService from '../services/noteService'
 
+const noteReducer = (state, action) => {
+    switch (action.type) {
+        case 'SET_NOTES':
+            return {
+                ...state,
+                notes: action.payload
+            }
+        case 'SET_DESC':
+            return {
+                ...state,
+                desc: action.payload
+            }
+        case 'SET_FILTER':
+            return {
+                ...state,
+                filter: action.payload
+            }
+        default:
+            throw new Error('action not defined')
+    }
+}
 export default function NoteApp() {
-    const [notes, setNotes] = useState([])
-    const [desc, setDesc] = useState("")
-    const [filter, setFilter] = useState("")
+    const [state, dispatch] = useReducer(noteReducer, {
+        notes: [],
+        desc: "",
+        filter: ""
+    })
 
     useEffect(() => {
         noteService.getAllNotes()
-            .then(data => setNotes(data))
+            .then(data => dispatch({
+                type: 'SET_NOTES',
+                payload: data
+            }))
     }, [])
 
-    const handleAdd = (evt) => {
-        evt.preventDefault()
-        const newNote = {
-            desc: desc,
-            important: Math.random() < 0.5
-        }
-        noteService.createNote(newNote)
-            .then(data => setNotes(notes.concat(data)))
-        setDesc('')
-    }
+
 
     return (
         <div>
             <notesContext.Provider value=
                 {{
-                    notes,
-                    handleAdd,
-                    desc,
-                    setDesc,
-                    filter,
-                    setFilter
+                    state,
+                    dispatch
                 }}>
 
                 <NotesFilter />

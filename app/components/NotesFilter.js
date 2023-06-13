@@ -2,12 +2,15 @@ import React, { useContext } from 'react'
 import notesContext from './NotesContext'
 
 export default function NotesFilter() {
-    const { filter, setFilter } = useContext(notesContext)
+    const { state, dispatch } = useContext(notesContext)
     return (
         <div>
             <input type='text'
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
+                value={state.filter}
+                onChange={(e) => dispatch({
+                    type: 'SET_FILTER',
+                    payload: e.target.value
+                })}
                 placeholder='search notes ...' />
         </div>
     )

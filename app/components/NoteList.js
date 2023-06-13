@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import notesContext from './NotesContext'
 
 export default function NoteList() {
-    const { notes, filter } = useContext(notesContext)
+    const { state: { notes, filter } } = useContext(notesContext)
     return (
         <div>
             <ul>
